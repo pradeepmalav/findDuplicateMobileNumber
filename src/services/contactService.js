@@ -3,8 +3,9 @@ import { ContactsModel } from '../model/contactModel.js';
 import { removeDuplicateContacts } from '../helper/removeDuplicateMobileNumber.js';
 
 export const contactSr = async (req) => {
-    const { contacts } = req.body || req.query;
 
+    const {contacts} = req.body?.contacts ? req.body: req.query ;
+    
     // final array to object and store individually in contacts collection
    const finalData = async(finalArray)=>{
     const updatedPayload = finalArray.map((d) => {
@@ -13,9 +14,7 @@ export const contactSr = async (req) => {
         }
     });
         return updatedPayload;
-
-   }
-       
+   }       
     const filterMobileNumber = (value) => value.replace(/\D/g, '').slice(-10)
 
     const unique = await removeDuplicateContacts(contacts);
